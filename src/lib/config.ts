@@ -1,4 +1,5 @@
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
+export const IS_NEXT_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
 /**
  * Demo one-click logins (Customer / Admin) are a development convenience only.

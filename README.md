@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # BharatBazaar — Production-Ready Indian E-Commerce Marketplace
 
 An e-commerce marketplace platform inspired by the Flipkart shopping experience. Built with Next.js App Router, React 19, TypeScript, Tailwind CSS, PostgreSQL (Neon / Prisma ORM), Firebase Mobile Phone Auth, Razorpay Payment Gateway, Google Maps Places Autocomplete, and Cloudinary image management.
@@ -202,3 +203,6 @@ Demo one-click logins appear in the navbar/login page only when `NODE_ENV !== "p
 - **Demo Admin**: phone `9876543210`, OTP `123456` → `/admin`
 
 In production, log in with Firebase OTP using a number listed in `ADMIN_PHONES` to access the admin panel.
+=======
+# ecom
+>>>>>>> c43aca125340d0db647f94effa996bec12ed1d57

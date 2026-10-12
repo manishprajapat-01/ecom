@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../prisma";
 import { HttpError } from "../api";
-import { IS_PRODUCTION } from "../config";
+import { IS_NEXT_BUILD, IS_PRODUCTION } from "../config";
 import {
   SAMPLE_CATEGORIES,
   SAMPLE_PRODUCTS,
@@ -32,7 +32,8 @@ type ProductWithRelations = Prisma.ProductGetPayload<{ include: typeof productIn
 
 let warnedAboutFallback = false;
 function devFallback<T>(err: unknown, value: T): T {
-  if (IS_PRODUCTION) throw err;
+  if (IS_NEXT_BUILD) return value;
+  if (IS_PRODUCTION && !IS_NEXT_BUILD) throw err;
   if (!warnedAboutFallback) {
     warnedAboutFallback = true;
     console.warn(
