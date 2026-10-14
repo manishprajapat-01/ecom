@@ -17,6 +17,7 @@ interface AuthContextType {
   /** Production flow: exchange a Firebase ID token for a session. */
   loginWithFirebaseToken: (idToken: string, name?: string) => Promise<Result>;
   loginDemo: (role: "CUSTOMER" | "ADMIN") => Promise<Result>;
+  loginAdmin: (email: string, password: string) => Promise<Result>;
   updateProfile: (data: { name: string; email?: string }) => Promise<Result>;
   logout: () => Promise<void>;
 }
@@ -93,6 +94,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return verifyDevOtp(account.phone, DEMO_ACCOUNTS.otp, account.name);
   };
 
+  const loginAdmin = async (email: string, password: string) => {
+    try {
+      const { ok, data } = await postJson<{ user?: SessionUser }>("/api/auth/admin-login", {
+        email,
+        password,
+      });
+      if (!ok || !data.user) {
+        return { success: false, message: data.error || "Invalid email or password" };
+      }
+      setUser(data.user);
+      return { success: true, message: "Admin login successful" };
+    } catch (err) {
+      return { success: false, message: (err as Error).message || "Network error during admin login" };
+    }
+  };
+
   const updateProfile = async (payload: { name: string; email?: string }) => {
     try {
       const { ok, data } = await postJson<{ user?: SessionUser }>("/api/auth/profile", payload, "PUT");
@@ -123,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         verifyDevOtp,
         loginWithFirebaseToken,
         loginDemo,
+        loginAdmin,
         updateProfile,
         logout,
       }}

@@ -8,6 +8,7 @@ import type { CatalogProduct } from "@/lib/data/sample-catalog";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { FAssuredBadge } from "@/components/layout/FAssuredBadge";
 
 interface ProductCardProps {
   product: CatalogProduct;
@@ -42,25 +43,30 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
     toggleWishlist(product);
   };
 
-  const primaryImage = product.images[0]?.url || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80";
+  const primaryImage =
+    product.images[0]?.url ||
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80";
 
   return (
-    <div className="group bg-white rounded border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all duration-200 flex flex-col relative overflow-hidden h-full">
+    <div className="group bg-white rounded-xs border border-gray-200/80 hover:border-gray-300 hover:shadow-lg transition-all duration-200 flex flex-col relative overflow-hidden h-full">
       {/* Wishlist Button */}
       <button
         onClick={handleToggleWishlist}
         className={`absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10 p-1.5 rounded-full transition-colors ${
           isFavorited
             ? "text-red-500 bg-red-50"
-            : "text-gray-400 hover:text-red-500 bg-white/80 hover:bg-white"
-        } shadow-xs`}
+            : "text-gray-400 hover:text-red-500 bg-white/90 hover:bg-white"
+        } shadow-2xs`}
         aria-label="Add to Wishlist"
       >
         <Heart className={`w-4 h-4 ${isFavorited ? "fill-current" : ""}`} />
       </button>
 
-      {/* Image Link */}
-      <Link href={`/products/${product.slug}`} className="block relative pt-[95%] bg-gray-50/50 overflow-hidden">
+      {/* Image Link with Discount Tag */}
+      <Link
+        href={`/products/${product.slug}`}
+        className="block relative pt-[95%] bg-white overflow-hidden p-3"
+      >
         <Image
           src={primaryImage}
           alt={product.title}
@@ -70,29 +76,28 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
           loading="lazy"
         />
 
-        {product.discountPercent >= 20 && (
-          <span className="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-xs">
+        {product.discountPercent >= 15 && (
+          <span className="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded-xs shadow-2xs">
             {product.discountPercent}% OFF
           </span>
         )}
       </Link>
 
       {/* Content */}
-      <div className="p-2.5 sm:p-3.5 flex flex-col flex-1 justify-between gap-2">
+      <div className="p-3 sm:p-4 flex flex-col flex-1 justify-between gap-2 border-t border-gray-100 bg-white">
         <div>
-          <div className="flex items-center gap-1.5 mb-1">
-            <span className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase truncate">
+          {/* Brand + Flipkart Assured */}
+          <div className="flex items-center justify-between gap-1 mb-1">
+            <span className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider truncate">
               {product.brand}
             </span>
-            {/* Flipkart-like Assured Badge */}
-            <span className="inline-flex items-center text-[10px] bg-blue-50 text-[#2874f0] font-black px-1 py-0.2 rounded italic border border-blue-100">
-              Assured ✦
-            </span>
+            <FAssuredBadge size="sm" />
           </div>
 
+          {/* Product Title */}
           <Link
             href={`/products/${product.slug}`}
-            className="text-[11px] sm:text-sm font-medium text-gray-800 hover:text-[#2874f0] line-clamp-2 leading-snug transition-colors min-h-[30px] sm:min-h-0"
+            className="text-[12px] sm:text-sm font-medium text-gray-800 hover:text-[#2874f0] line-clamp-2 leading-snug transition-colors min-h-[34px] sm:min-h-0"
             title={product.title}
           >
             {product.title}
@@ -103,18 +108,18 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
           {/* Rating Badge */}
           {product.rating > 0 && (
             <div className="flex items-center gap-1.5 my-1">
-              <span className="inline-flex items-center gap-0.5 bg-emerald-700 text-white font-bold text-[11px] px-1.5 py-0.5 rounded">
+              <span className="inline-flex items-center gap-0.5 bg-[#388e3c] text-white font-bold text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-xs">
                 {product.rating.toFixed(1)} <Star className="w-2.5 h-2.5 fill-current" />
               </span>
-              <span className="text-gray-400 text-[11px] sm:text-xs font-medium">
+              <span className="text-gray-400 text-[10px] sm:text-xs font-semibold">
                 ({product.reviewCount.toLocaleString()})
               </span>
             </div>
           )}
 
-          {/* Pricing Row */}
-          <div className="flex items-baseline flex-wrap gap-2 mt-1">
-            <span className="text-sm sm:text-lg font-bold text-gray-900">
+          {/* Flipkart Pricing Row */}
+          <div className="flex items-baseline flex-wrap gap-1.5 sm:gap-2 mt-1">
+            <span className="text-base sm:text-lg font-black text-gray-900 tracking-tight">
               {formatCurrency(product.sellingPrice)}
             </span>
             {product.regularPrice > product.sellingPrice && (
@@ -122,7 +127,7 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
                 <span className="text-[11px] sm:text-xs text-gray-400 line-through">
                   {formatCurrency(product.regularPrice)}
                 </span>
-                <span className="text-[11px] sm:text-xs font-bold text-emerald-600">
+                <span className="text-[11px] sm:text-xs font-black text-[#388e3c]">
                   {product.discountPercent}% off
                 </span>
               </>
@@ -130,16 +135,16 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
           </div>
 
           <p className="text-[10px] sm:text-[11px] text-gray-500 mt-1 truncate">
-            Free delivery • <span className="text-emerald-700 font-semibold">Bank Offer</span>
+            Free delivery • <span className="text-emerald-700 font-bold">Bank Offer</span>
           </p>
         </div>
 
         {/* Action Button */}
-        <div className="pt-1.5 sm:pt-2 border-t border-gray-100 mt-1">
+        <div className="pt-2 border-t border-gray-100 mt-1">
           <button
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
-            className={`w-full min-h-8 py-1.5 px-2 sm:px-3 rounded text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
+            className={`w-full min-h-8 py-1.5 px-3 rounded-xs text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
               product.stock <= 0
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                 : isInCart

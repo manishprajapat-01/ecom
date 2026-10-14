@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Grid3X3, Home, ShoppingCart, User } from "lucide-react";
+import { Bell, Grid3X3, Home, ShoppingCart, User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 
@@ -27,10 +27,16 @@ export function MobileBottomNav() {
       active: pathname === "/products" || pathname.startsWith("/categories"),
     },
     {
+      href: "/account/orders",
+      label: "Orders",
+      icon: Bell,
+      active: pathname.startsWith("/account/orders"),
+    },
+    {
       href: accountHref,
       label: "Account",
       icon: User,
-      active: pathname.startsWith("/account"),
+      active: pathname.startsWith("/account") && !pathname.startsWith("/account/orders"),
     },
     {
       href: "/cart",
@@ -42,8 +48,8 @@ export function MobileBottomNav() {
   ];
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 h-16 border-t border-gray-200 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.06)] sm:hidden">
-      <div className="grid h-full grid-cols-4">
+    <nav className="fixed inset-x-0 bottom-0 z-40 h-14 border-t border-gray-200 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.06)] sm:hidden">
+      <div className="grid h-full grid-cols-5">
         {items.map((item) => {
           const Icon = item.icon;
           return (

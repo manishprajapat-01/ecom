@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { prisma } from "../prisma";
 import { DEMO_ACCOUNTS, DEMO_LOGIN_ENABLED, IS_PRODUCTION } from "../config";
 
-const DEFAULT_DEV_SECRET = "bharatbazaar-dev-only-session-secret-change-me-in-production";
+const DEFAULT_DEV_SECRET = "flipkart-dev-only-session-secret-change-me-in-production";
 
 function getJwtSecret(): string {
   const secret = process.env.JWT_SECRET;
@@ -117,12 +117,19 @@ export async function requireAdminSession(): Promise<SessionUser> {
   if (user.role !== "ADMIN") {
     throw new AuthError("Admin privileges required.", 403);
   }
-  const dbUser = await prisma.user.findUnique({
-    where: { id: user.id },
-    select: { role: true, isActive: true },
-  });
-  if (!dbUser || dbUser.role !== "ADMIN" || !dbUser.isActive) {
-    throw new AuthError("Admin privileges required.", 403);
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true, isActive: true },
+    });
+    if (dbUser && (dbUser.role !== "ADMIN" || !dbUser.isActive)) {
+      throw new AuthError("Admin privileges required.", 403);
+    }
+  } catch (err) {
+    if (IS_PRODUCTION) {
+      throw new AuthError("Admin privileges verification failed.", 403);
+    }
+    // In development mode, allow configured admin session
   }
   return user;
 }
@@ -176,30 +183,44 @@ export async function getOrCreateCustomerByPhone(phone: string, name?: string): 
     (DEMO_LOGIN_ENABLED && cleaned === DEMO_ACCOUNTS.admin.phone);
   const trimmedName = name?.trim() || undefined;
 
-  const user = await prisma.user.upsert({
-    where: { phone: cleaned },
-    update: {
-      ...(trimmedName ? { name: trimmedName } : {}),
-      ...(shouldBeAdmin ? { role: "ADMIN" } : {}),
-    },
-    create: {
-      phone: cleaned,
-      name: trimmedName || `Customer ${cleaned.slice(-4)}`,
-      role: shouldBeAdmin ? "ADMIN" : "CUSTOMER",
-    },
-  });
+  try {
+    const user = await prisma.user.upsert({
+      where: { phone: cleaned },
+      update: {
+        ...(trimmedName ? { name: trimmedName } : {}),
+        ...(shouldBeAdmin ? { role: "ADMIN" } : {}),
+      },
+      create: {
+        phone: cleaned,
+        name: trimmedName || `Customer ${cleaned.slice(-4)}`,
+        role: shouldBeAdmin ? "ADMIN" : "CUSTOMER",
+      },
+    });
 
-  if (!user.isActive) {
-    throw new AuthError("This account has been deactivated. Please contact support.", 403);
+    if (!user.isActive) {
+      throw new AuthError("This account has been deactivated. Please contact support.", 403);
+    }
+
+    return {
+      id: user.id,
+      phone: user.phone,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      console.warn("[auth] DB unreachable, returning dev fallback user:", err);
+      return {
+        id: "demo-user-" + cleaned,
+        phone: cleaned,
+        name: trimmedName || (shouldBeAdmin ? "Aadi Kiran Mahajani" : `Customer ${cleaned.slice(-4)}`),
+        email: shouldBeAdmin ? "aadi28x6@gmail.com" : null,
+        role: shouldBeAdmin ? "ADMIN" : "CUSTOMER",
+      };
+    }
+    throw err;
   }
-
-  return {
-    id: user.id,
-    phone: user.phone,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-  };
 }
 
 /**
@@ -209,18 +230,32 @@ export async function updateUserProfile(
   userId: string,
   updates: { name?: string; email?: string | null }
 ): Promise<SessionUser> {
-  const user = await prisma.user.update({
-    where: { id: userId },
-    data: {
-      ...(updates.name !== undefined ? { name: updates.name.trim() || null } : {}),
-      ...(updates.email !== undefined ? { email: updates.email ? updates.email.trim().toLowerCase() : null } : {}),
-    },
-  });
-  return {
-    id: user.id,
-    phone: user.phone,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-  };
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(updates.name !== undefined ? { name: updates.name.trim() || null } : {}),
+        ...(updates.email !== undefined ? { email: updates.email ? updates.email.trim().toLowerCase() : null } : {}),
+      },
+    });
+    return {
+      id: user.id,
+      phone: user.phone,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      console.warn("[auth] DB unreachable during updateUserProfile, returning updated session user:", err);
+      return {
+        id: userId,
+        phone: "9812345678",
+        name: updates.name !== undefined ? (updates.name.trim() || null) : "Rahul Sharma",
+        email: updates.email !== undefined ? (updates.email ? updates.email.trim().toLowerCase() : null) : null,
+        role: "CUSTOMER",
+      };
+    }
+    throw err;
+  }
 }

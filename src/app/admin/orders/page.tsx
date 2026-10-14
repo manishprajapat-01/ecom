@@ -82,40 +82,47 @@ function AdminOrdersContent() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white rounded-sm border border-gray-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-6">
+      {/* Header Banner */}
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-base font-bold text-gray-900">Orders & Fulfillment</h1>
-          <p className="text-xs text-gray-500">Track payments, update shipment status and manage fulfillment</p>
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Orders & Fulfillment</h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Track payments, update shipment status and manage customer fulfillment
+          </p>
         </div>
 
         <a
           href="/api/admin/orders/export"
           download
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded border border-gray-300 flex items-center gap-1.5 transition"
+          className="px-4 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 flex items-center gap-2 transition shadow-2xs"
         >
-          <Download className="w-4 h-4" /> Export CSV
+          <Download className="w-4 h-4 text-slate-500" /> Export CSV
         </a>
       </div>
 
-      {error && <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded font-medium">{error}</div>}
+      {error && (
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl font-medium">
+          {error}
+        </div>
+      )}
 
       {/* Filters */}
-      <div className="bg-white rounded-sm border border-gray-200 p-3 shadow-xs flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
-          <Search className="w-4 h-4 text-gray-400" />
+      <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-3 flex-1 min-w-[220px]">
+          <Search className="w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by order #, customer, phone or payment id..."
+            placeholder="Search by order #, customer name, phone or payment ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full text-xs focus:outline-none"
+            className="w-full text-xs text-slate-800 placeholder-slate-400 focus:outline-none bg-transparent"
           />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as "" | OrderStatus)}
-          className="p-1.5 border rounded bg-white text-xs font-medium"
+          className="px-3 py-2 border border-slate-200 rounded-xl bg-slate-50 text-xs font-semibold text-slate-700 focus:outline-none"
         >
           <option value="">All statuses</option>
           {ORDER_STATUSES.map((s) => (
@@ -127,10 +134,10 @@ function AdminOrdersContent() {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-sm border border-gray-200 shadow-xs overflow-x-auto text-xs">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-x-auto text-xs p-2">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b bg-gray-50 text-gray-500 uppercase text-[10px] tracking-wider">
+            <tr className="border-b border-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider">
               <th className="p-3 w-8"></th>
               <th className="p-3">Order</th>
               <th className="p-3">Customer</th>

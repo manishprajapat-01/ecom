@@ -1,0 +1,38 @@
+[
+  {
+    "id": "addr-demo-1",
+    "userId": "admin-aadi-mahajani",
+    "fullName": "Aadi Kiran Mahajani",
+    "phone": "9876543210",
+    "houseFlat": "Flat 402, Royal Residency",
+    "street": "Malviya Nagar",
+    "landmark": "Near World Trade Park",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "pinCode": "302017",
+    "type": "HOME",
+    "isDefault": true,
+    "latitude": 26.8532,
+    "longitude": 75.8054,
+    "createdAt": "2026-10-14T10:00:00.000Z",
+    "updatedAt": "2026-10-14T10:00:00.000Z"
+  },
+  {
+    "id": "addr-demo-2",
+    "userId": "demo-customer",
+    "fullName": "Rahul Sharma",
+    "phone": "9812345678",
+    "houseFlat": "Flat 204, Green Heights",
+    "street": "Tonk Road",
+    "landmark": "Near Metro Pillar 42",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "pinCode": "302015",
+    "type": "HOME",
+    "isDefault": true,
+    "latitude": 26.9124,
+    "longitude": 75.7873,
+    "createdAt": "2026-10-14T10:00:00.000Z",
+    "updatedAt": "2026-10-14T10:00:00.000Z"
+  }
+]

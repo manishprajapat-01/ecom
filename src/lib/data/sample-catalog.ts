@@ -57,7 +57,7 @@ export const SAMPLE_CATEGORIES: CatalogCategory[] = [
     name: "Mobiles & Tablets",
     slug: "mobiles-tablets",
     description: "Latest smartphones, 5G phones and flagship tablets",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02560?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
     iconName: "Smartphone",
     sortOrder: 1,
   },

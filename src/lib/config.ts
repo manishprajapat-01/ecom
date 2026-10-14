@@ -25,8 +25,14 @@ export const DEMO_ACCOUNTS = {
   otp: "123456",
 };
 
+export const ADMIN_CREDENTIALS = {
+  email: (process.env.ADMIN_EMAIL || "aadi28x6@gmail.com").trim().toLowerCase(),
+  password: process.env.ADMIN_PASSWORD || "admin123",
+  name: "Aadi Kiran Mahajani",
+};
+
 export const SITE_CONFIG = {
-  storeName: process.env.STORE_NAME || "BharatBazaar",
+  storeName: process.env.STORE_NAME || "Flipkart",
   tagline: "India's Favorite Shopping Destination",
   appUrl: process.env.APP_URL || "http://localhost:3000",
   currency: "INR",
@@ -34,8 +40,8 @@ export const SITE_CONFIG = {
   freeShippingThresholdPaise: 50000, // ₹500
   defaultShippingFeePaise: 4000,     // ₹40
   supportPhone: "1800 202 9898",
-  supportEmail: "support@bharatbazaar.in",
-  address: "Building Alyssa, Begonia & Clover, Embassy Tech Village, Outer Ring Road, Bengaluru, 560103, Karnataka, India",
+  supportEmail: "support@flipkart.com",
+  address: "Buildings Alyssa, Begonia & Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahalli Village, Bengaluru, 560103, Karnataka, India",
   features: {
     enableCashOnDelivery: true,
     enableRazorpay: true,

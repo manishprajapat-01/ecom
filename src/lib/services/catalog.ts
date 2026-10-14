@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../prisma";
 import { HttpError } from "../api";
@@ -11,6 +13,52 @@ import {
 } from "../data/sample-catalog";
 
 export type { CatalogCategory, CatalogProduct, CatalogProductImage };
+
+const DEV_CATALOG_FILE = path.join(process.cwd(), "src", "lib", "data", "dev-catalog.json");
+
+interface DevCatalogData {
+  categories: CatalogCategory[];
+  products: CatalogProduct[];
+}
+
+function loadDevCatalog(): DevCatalogData {
+  try {
+    if (fs.existsSync(DEV_CATALOG_FILE)) {
+      return JSON.parse(fs.readFileSync(DEV_CATALOG_FILE, "utf-8"));
+    }
+  } catch (e) {
+    console.error("Failed to load dev catalog:", e);
+  }
+  return { categories: [...SAMPLE_CATEGORIES], products: [...SAMPLE_PRODUCTS] };
+}
+
+function persistDevCatalog(data: DevCatalogData) {
+  try {
+    fs.writeFileSync(DEV_CATALOG_FILE, JSON.stringify(data, null, 2), "utf-8");
+  } catch (e) {
+    console.error("Failed to persist dev catalog:", e);
+  }
+}
+
+const globalForCatalog = globalThis as unknown as {
+  devCatalog?: DevCatalogData;
+};
+
+if (!globalForCatalog.devCatalog) {
+  globalForCatalog.devCatalog = loadDevCatalog();
+}
+
+export function getDevCatalog(): DevCatalogData {
+  if (!globalForCatalog.devCatalog) {
+    globalForCatalog.devCatalog = loadDevCatalog();
+  }
+  return globalForCatalog.devCatalog;
+}
+
+export function saveDevCatalog(data: DevCatalogData) {
+  globalForCatalog.devCatalog = data;
+  persistDevCatalog(data);
+}
 
 /**
  * ───────────────────────────────────────────────────────────────────────────
@@ -136,14 +184,16 @@ export async function getCategories(options: { includeInactive?: boolean } = {})
       where: options.includeInactive ? {} : { isActive: true },
       orderBy: { sortOrder: "asc" },
     });
-    return cats.map(mapCategory);
+    if (cats.length > 0) return cats.map(mapCategory);
   } catch (err) {
-    return devFallback(err, SAMPLE_CATEGORIES);
+    if (IS_PRODUCTION && !IS_NEXT_BUILD) throw err;
   }
+  const all = getDevCatalog().categories;
+  return options.includeInactive ? all : all.filter((c) => c.isActive !== false);
 }
 
 export async function getCategoryBySlug(slug: string): Promise<CatalogCategory | null> {
-  const categories = await getCategories();
+  const categories = await getCategories({ includeInactive: true });
   return categories.find((c) => c.slug === slug) || null;
 }
 
@@ -165,47 +215,106 @@ export async function createCategory(data: {
   sortOrder?: number;
   isActive?: boolean;
 }): Promise<CatalogCategory> {
-  const created = await prisma.category.create({
-    data: {
-      name: data.name.trim(),
-      slug: slugify(data.slug || data.name),
-      description: data.description?.trim() || null,
-      image: data.image || null,
-      icon: data.icon || "ShoppingBag",
-      sortOrder: data.sortOrder ?? 100,
-      isActive: data.isActive ?? true,
-    },
-  });
-  return mapCategory(created);
+  const newCat: CatalogCategory = {
+    id: `cat-${Date.now()}`,
+    name: data.name.trim(),
+    slug: slugify(data.slug || data.name),
+    description: data.description?.trim() || "",
+    image: data.image || "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80",
+    iconName: data.icon || "ShoppingBag",
+    sortOrder: data.sortOrder ?? 100,
+    isActive: data.isActive ?? true,
+  };
+  try {
+    const created = await prisma.category.create({
+      data: {
+        name: newCat.name,
+        slug: newCat.slug,
+        description: newCat.description || null,
+        image: newCat.image || null,
+        icon: newCat.iconName,
+        sortOrder: newCat.sortOrder,
+        isActive: newCat.isActive ?? true,
+      },
+    });
+    return mapCategory(created);
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      catalog.categories.push(newCat);
+      saveDevCatalog(catalog);
+      return newCat;
+    }
+    throw err;
+  }
 }
 
 export async function updateCategory(
   id: string,
   data: Partial<{ name: string; slug: string; description: string; image: string; icon: string; sortOrder: number; isActive: boolean }>
 ): Promise<CatalogCategory> {
-  const updated = await prisma.category.update({
-    where: { id },
-    data: {
-      ...(data.name !== undefined ? { name: data.name.trim() } : {}),
-      ...(data.slug !== undefined ? { slug: slugify(data.slug) } : {}),
-      ...(data.description !== undefined ? { description: data.description || null } : {}),
-      ...(data.image !== undefined ? { image: data.image || null } : {}),
-      ...(data.icon !== undefined ? { icon: data.icon || "ShoppingBag" } : {}),
-      ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
-      ...(data.isActive !== undefined ? { isActive: data.isActive } : {}),
-    },
-  });
-  return mapCategory(updated);
+  try {
+    const updated = await prisma.category.update({
+      where: { id },
+      data: {
+        ...(data.name !== undefined ? { name: data.name.trim() } : {}),
+        ...(data.slug !== undefined ? { slug: slugify(data.slug) } : {}),
+        ...(data.description !== undefined ? { description: data.description || null } : {}),
+        ...(data.image !== undefined ? { image: data.image || null } : {}),
+        ...(data.icon !== undefined ? { icon: data.icon || "ShoppingBag" } : {}),
+        ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
+        ...(data.isActive !== undefined ? { isActive: data.isActive } : {}),
+      },
+    });
+    return mapCategory(updated);
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      const idx = catalog.categories.findIndex((c) => c.id === id || c.slug === id);
+      if (idx !== -1) {
+        catalog.categories[idx] = {
+          ...catalog.categories[idx],
+          ...(data.name ? { name: data.name.trim() } : {}),
+          ...(data.slug ? { slug: slugify(data.slug) } : {}),
+          ...(data.description !== undefined ? { description: data.description } : {}),
+          ...(data.image ? { image: data.image } : {}),
+          ...(data.icon ? { iconName: data.icon } : {}),
+          ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
+          ...(data.isActive !== undefined ? { isActive: data.isActive } : {}),
+        };
+        saveDevCatalog(catalog);
+        return catalog.categories[idx];
+      }
+    }
+    throw err;
+  }
 }
 
 export async function deleteCategory(id: string): Promise<{ deleted: boolean; archived: boolean }> {
-  const productCount = await prisma.product.count({ where: { categoryId: id } });
-  if (productCount > 0) {
-    await prisma.category.update({ where: { id }, data: { isActive: false } });
-    return { deleted: false, archived: true };
+  try {
+    const productCount = await prisma.product.count({ where: { categoryId: id } });
+    if (productCount > 0) {
+      await prisma.category.update({ where: { id }, data: { isActive: false } });
+      return { deleted: false, archived: true };
+    }
+    await prisma.category.delete({ where: { id } });
+    return { deleted: true, archived: false };
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      const hasProducts = catalog.products.some((p) => p.categoryId === id || p.categorySlug === id);
+      if (hasProducts) {
+        const cat = catalog.categories.find((c) => c.id === id || c.slug === id);
+        if (cat) cat.isActive = false;
+        saveDevCatalog(catalog);
+        return { deleted: false, archived: true };
+      }
+      catalog.categories = catalog.categories.filter((c) => c.id !== id && c.slug !== id);
+      saveDevCatalog(catalog);
+      return { deleted: true, archived: false };
+    }
+    throw err;
   }
-  await prisma.category.delete({ where: { id } });
-  return { deleted: true, archived: false };
 }
 
 // ───────────────────────────── Products ───────────────────────────────────
@@ -251,7 +360,8 @@ function buildOrderBy(sort: ProductFilters["sort"]): Prisma.ProductOrderByWithRe
 }
 
 function filterSample(filters: ProductFilters): CatalogProduct[] {
-  let list = SAMPLE_PRODUCTS.filter((p) => filters.includeUnpublished || p.isPublished);
+  const allProds = getDevCatalog().products;
+  let list = allProds.filter((p) => filters.includeUnpublished || p.isPublished);
   if (filters.categorySlug) list = list.filter((p) => p.categorySlug === filters.categorySlug);
   if (filters.brand) list = list.filter((p) => p.brand.toLowerCase() === filters.brand!.toLowerCase());
   if (filters.minPricePaise !== undefined) list = list.filter((p) => p.sellingPrice >= filters.minPricePaise!);
@@ -312,19 +422,21 @@ export async function getProducts(filters: ProductFilters = {}): Promise<{
 export async function getProductBySlug(slug: string): Promise<CatalogProduct | null> {
   try {
     const p = await prisma.product.findUnique({ where: { slug }, include: productInclude });
-    return p ? mapProduct(p) : null;
+    if (p) return mapProduct(p);
   } catch (err) {
-    return devFallback(err, SAMPLE_PRODUCTS.find((p) => p.slug === slug) || null);
+    if (IS_PRODUCTION && !IS_NEXT_BUILD) throw err;
   }
+  return getDevCatalog().products.find((p) => p.slug === slug) || null;
 }
 
 export async function getProductById(id: string): Promise<CatalogProduct | null> {
   try {
     const p = await prisma.product.findUnique({ where: { id }, include: productInclude });
-    return p ? mapProduct(p) : null;
+    if (p) return mapProduct(p);
   } catch (err) {
-    return devFallback(err, SAMPLE_PRODUCTS.find((p) => p.id === id) || null);
+    if (IS_PRODUCTION && !IS_NEXT_BUILD) throw err;
   }
+  return getDevCatalog().products.find((p) => p.id === id) || null;
 }
 
 export async function getFeaturedProducts(limit = 8): Promise<CatalogProduct[]> {
@@ -341,10 +453,13 @@ export async function getBrands(categorySlug?: string): Promise<string[]> {
       distinct: ["brand"],
       orderBy: { brand: "asc" },
     });
-    return rows.map((r) => r.brand);
+    if (rows.length > 0) return rows.map((r) => r.brand);
   } catch (err) {
-    return devFallback(err, Array.from(new Set(SAMPLE_PRODUCTS.map((p) => p.brand))).sort());
+    if (IS_PRODUCTION && !IS_NEXT_BUILD) throw err;
   }
+  const prods = getDevCatalog().products;
+  const filtered = categorySlug ? prods.filter((p) => p.categorySlug === categorySlug) : prods;
+  return Array.from(new Set(filtered.map((p) => p.brand))).sort();
 }
 
 // ───────────────────────── Admin: product writes ──────────────────────────
@@ -412,94 +527,171 @@ export async function addProduct(input: ProductWriteInput): Promise<CatalogProdu
   if (input.sellingPrice > input.regularPrice) {
     throw new HttpError("Selling price cannot be higher than the regular (MRP) price.", 400);
   }
-  const categoryId = await resolveCategoryId(input);
-  const slug = await uniqueSlug(input.slug || input.title);
+  const slug = slugify(input.slug || input.title);
+  const newProd: CatalogProduct = {
+    id: `prod-${Date.now()}`,
+    title: input.title.trim(),
+    slug,
+    shortDesc: input.shortDesc?.trim() || "",
+    longDesc: input.longDesc?.trim() || "",
+    brand: input.brand.trim(),
+    categoryId: input.categoryId || "cat-mobiles",
+    categorySlug: input.categorySlug || "mobiles-tablets",
+    categoryName: input.brand,
+    regularPrice: input.regularPrice,
+    sellingPrice: input.sellingPrice,
+    discountPercent: discountPercent(input.regularPrice, input.sellingPrice),
+    sku: input.sku.trim(),
+    stock: input.stock,
+    isPublished: input.isPublished ?? true,
+    isFeatured: input.isFeatured ?? false,
+    rating: 4.5,
+    reviewCount: 1,
+    specifications: input.specifications || {},
+    images: (input.images || []).map((img, idx) => ({
+      id: `img-${Date.now()}-${idx}`,
+      url: img.url,
+      alt: img.alt || input.title,
+      isPrimary: Boolean(img.isPrimary),
+      publicId: img.publicId,
+    })),
+  };
 
-  const skuClash = await prisma.product.findUnique({ where: { sku: input.sku }, select: { id: true } });
-  if (skuClash) throw new HttpError(`SKU '${input.sku}' is already in use.`, 409);
+  try {
+    const categoryId = await resolveCategoryId(input);
+    const resolvedSlug = await uniqueSlug(input.slug || input.title);
 
-  const created = await prisma.product.create({
-    data: {
-      title: input.title.trim(),
-      slug,
-      shortDesc: input.shortDesc?.trim() || null,
-      longDesc: input.longDesc?.trim() || null,
-      brand: input.brand.trim(),
-      categoryId,
-      regularPrice: input.regularPrice,
-      sellingPrice: input.sellingPrice,
-      discountPercent: discountPercent(input.regularPrice, input.sellingPrice),
-      sku: input.sku.trim(),
-      stock: input.stock,
-      isPublished: input.isPublished ?? true,
-      isFeatured: input.isFeatured ?? false,
-      specifications: (input.specifications || {}) as Prisma.InputJsonValue,
-      images: { create: normaliseImages(input.images, input.title) },
-      inventoryMoves: input.stock > 0 ? { create: { quantityChange: input.stock, reason: "INITIAL_STOCK" } } : undefined,
-    },
-    include: productInclude,
-  });
-  return mapProduct(created);
-}
-
-export async function updateProduct(id: string, input: Partial<ProductWriteInput>): Promise<CatalogProduct> {
-  const existing = await prisma.product.findUnique({ where: { id }, include: { images: true } });
-  if (!existing) throw new HttpError("Product not found", 404);
-
-  const regular = input.regularPrice ?? existing.regularPrice;
-  const selling = input.sellingPrice ?? existing.sellingPrice;
-  if (selling > regular) {
-    throw new HttpError("Selling price cannot be higher than the regular (MRP) price.", 400);
-  }
-
-  const categoryId = input.categoryId || input.categorySlug ? await resolveCategoryId(input) : existing.categoryId;
-  const slug = input.slug !== undefined || (input.title && input.title !== existing.title)
-    ? await uniqueSlug(input.slug || input.title || existing.title, id)
-    : existing.slug;
-
-  if (input.sku && input.sku !== existing.sku) {
     const skuClash = await prisma.product.findUnique({ where: { sku: input.sku }, select: { id: true } });
     if (skuClash) throw new HttpError(`SKU '${input.sku}' is already in use.`, 409);
-  }
 
-  const updated = await prisma.$transaction(async (tx) => {
-    if (input.images) {
-      await tx.productImage.deleteMany({ where: { productId: id } });
-      const imgs = normaliseImages(input.images, input.title || existing.title);
-      if (imgs.length) {
-        await tx.productImage.createMany({ data: imgs.map((img) => ({ ...img, productId: id })) });
-      }
-    }
-
-    if (input.stock !== undefined && input.stock !== existing.stock) {
-      await tx.inventoryMovement.create({
-        data: { productId: id, quantityChange: input.stock - existing.stock, reason: "ADJUSTMENT", referenceId: "admin-edit" },
-      });
-    }
-
-    return tx.product.update({
-      where: { id },
+    const created = await prisma.product.create({
       data: {
-        ...(input.title !== undefined ? { title: input.title.trim() } : {}),
-        slug,
-        ...(input.shortDesc !== undefined ? { shortDesc: input.shortDesc.trim() || null } : {}),
-        ...(input.longDesc !== undefined ? { longDesc: input.longDesc.trim() || null } : {}),
-        ...(input.brand !== undefined ? { brand: input.brand.trim() } : {}),
+        title: input.title.trim(),
+        slug: resolvedSlug,
+        shortDesc: input.shortDesc?.trim() || null,
+        longDesc: input.longDesc?.trim() || null,
+        brand: input.brand.trim(),
         categoryId,
-        regularPrice: regular,
-        sellingPrice: selling,
-        discountPercent: discountPercent(regular, selling),
-        ...(input.sku !== undefined ? { sku: input.sku.trim() } : {}),
-        ...(input.stock !== undefined ? { stock: input.stock } : {}),
-        ...(input.isPublished !== undefined ? { isPublished: input.isPublished } : {}),
-        ...(input.isFeatured !== undefined ? { isFeatured: input.isFeatured } : {}),
-        ...(input.specifications !== undefined ? { specifications: input.specifications as Prisma.InputJsonValue } : {}),
+        regularPrice: input.regularPrice,
+        sellingPrice: input.sellingPrice,
+        discountPercent: discountPercent(input.regularPrice, input.sellingPrice),
+        sku: input.sku.trim(),
+        stock: input.stock,
+        isPublished: input.isPublished ?? true,
+        isFeatured: input.isFeatured ?? false,
+        specifications: (input.specifications || {}) as Prisma.InputJsonValue,
+        images: { create: normaliseImages(input.images, input.title) },
+        inventoryMoves: input.stock > 0 ? { create: { quantityChange: input.stock, reason: "INITIAL_STOCK" } } : undefined,
       },
       include: productInclude,
     });
-  });
+    return mapProduct(created);
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      catalog.products.unshift(newProd);
+      saveDevCatalog(catalog);
+      return newProd;
+    }
+    throw err;
+  }
+}
 
-  return mapProduct(updated);
+export async function updateProduct(id: string, input: Partial<ProductWriteInput>): Promise<CatalogProduct> {
+  try {
+    const existing = await prisma.product.findUnique({ where: { id }, include: { images: true } });
+    if (!existing) throw new HttpError("Product not found", 404);
+
+    const regular = input.regularPrice ?? existing.regularPrice;
+    const selling = input.sellingPrice ?? existing.sellingPrice;
+    if (selling > regular) {
+      throw new HttpError("Selling price cannot be higher than the regular (MRP) price.", 400);
+    }
+
+    const categoryId = input.categoryId || input.categorySlug ? await resolveCategoryId(input) : existing.categoryId;
+    const slug = input.slug !== undefined || (input.title && input.title !== existing.title)
+      ? await uniqueSlug(input.slug || input.title || existing.title, id)
+      : existing.slug;
+
+    if (input.sku && input.sku !== existing.sku) {
+      const skuClash = await prisma.product.findUnique({ where: { sku: input.sku }, select: { id: true } });
+      if (skuClash) throw new HttpError(`SKU '${input.sku}' is already in use.`, 409);
+    }
+
+    const updated = await prisma.$transaction(async (tx) => {
+      if (input.images) {
+        await tx.productImage.deleteMany({ where: { productId: id } });
+        const imgs = normaliseImages(input.images, input.title || existing.title);
+        if (imgs.length) {
+          await tx.productImage.createMany({ data: imgs.map((img) => ({ ...img, productId: id })) });
+        }
+      }
+
+      if (input.stock !== undefined && input.stock !== existing.stock) {
+        await tx.inventoryMovement.create({
+          data: { productId: id, quantityChange: input.stock - existing.stock, reason: "ADJUSTMENT", referenceId: "admin-edit" },
+        });
+      }
+
+      return tx.product.update({
+        where: { id },
+        data: {
+          ...(input.title !== undefined ? { title: input.title.trim() } : {}),
+          slug,
+          ...(input.shortDesc !== undefined ? { shortDesc: input.shortDesc.trim() || null } : {}),
+          ...(input.longDesc !== undefined ? { longDesc: input.longDesc.trim() || null } : {}),
+          ...(input.brand !== undefined ? { brand: input.brand.trim() } : {}),
+          categoryId,
+          regularPrice: regular,
+          sellingPrice: selling,
+          discountPercent: discountPercent(regular, selling),
+          ...(input.sku !== undefined ? { sku: input.sku.trim() } : {}),
+          ...(input.stock !== undefined ? { stock: input.stock } : {}),
+          ...(input.isPublished !== undefined ? { isPublished: input.isPublished } : {}),
+          ...(input.isFeatured !== undefined ? { isFeatured: input.isFeatured } : {}),
+          ...(input.specifications !== undefined ? { specifications: input.specifications as Prisma.InputJsonValue } : {}),
+        },
+        include: productInclude,
+      });
+    });
+
+    return mapProduct(updated);
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      const idx = catalog.products.findIndex((p) => p.id === id || p.slug === id);
+      if (idx !== -1) {
+        const prev = catalog.products[idx];
+        const regular = input.regularPrice ?? prev.regularPrice;
+        const selling = input.sellingPrice ?? prev.sellingPrice;
+        catalog.products[idx] = {
+          ...prev,
+          ...(input.title ? { title: input.title.trim() } : {}),
+          ...(input.brand ? { brand: input.brand.trim() } : {}),
+          regularPrice: regular,
+          sellingPrice: selling,
+          discountPercent: discountPercent(regular, selling),
+          ...(input.stock !== undefined ? { stock: input.stock } : {}),
+          ...(input.isPublished !== undefined ? { isPublished: input.isPublished } : {}),
+          ...(input.isFeatured !== undefined ? { isFeatured: input.isFeatured } : {}),
+          ...(input.shortDesc !== undefined ? { shortDesc: input.shortDesc } : {}),
+          ...(input.longDesc !== undefined ? { longDesc: input.longDesc } : {}),
+          ...(input.images ? {
+            images: input.images.map((img, i) => ({
+              id: `img-${Date.now()}-${i}`,
+              url: img.url,
+              alt: img.alt || prev.title,
+              isPrimary: Boolean(img.isPrimary),
+              publicId: img.publicId,
+            }))
+          } : {}),
+        };
+        saveDevCatalog(catalog);
+        return catalog.products[idx];
+      }
+    }
+    throw err;
+  }
 }
 
 /**
@@ -507,19 +699,29 @@ export async function updateProduct(id: string, input: Partial<ProductWriteInput
  * stock zeroed) instead, to preserve order history.
  */
 export async function deleteProduct(id: string): Promise<{ deleted: boolean; archived: boolean; imagePublicIds: string[] }> {
-  const existing = await prisma.product.findUnique({
-    where: { id },
-    include: { images: true, _count: { select: { orderItems: true } } },
-  });
-  if (!existing) throw new HttpError("Product not found", 404);
+  try {
+    const existing = await prisma.product.findUnique({
+      where: { id },
+      include: { images: true, _count: { select: { orderItems: true } } },
+    });
+    if (!existing) throw new HttpError("Product not found", 404);
 
-  const imagePublicIds = existing.images.map((i) => i.publicId).filter((p): p is string => Boolean(p));
+    const imagePublicIds = existing.images.map((i) => i.publicId).filter((p): p is string => Boolean(p));
 
-  if (existing._count.orderItems > 0) {
-    await prisma.product.update({ where: { id }, data: { isPublished: false, isFeatured: false, stock: 0 } });
-    return { deleted: false, archived: true, imagePublicIds: [] };
+    if (existing._count.orderItems > 0) {
+      await prisma.product.update({ where: { id }, data: { isPublished: false, isFeatured: false, stock: 0 } });
+      return { deleted: false, archived: true, imagePublicIds: [] };
+    }
+
+    await prisma.product.delete({ where: { id } });
+    return { deleted: true, archived: false, imagePublicIds };
+  } catch (err) {
+    if (!IS_PRODUCTION) {
+      const catalog = getDevCatalog();
+      catalog.products = catalog.products.filter((p) => p.id !== id && p.slug !== id);
+      saveDevCatalog(catalog);
+      return { deleted: true, archived: false, imagePublicIds: [] };
+    }
+    throw err;
   }
-
-  await prisma.product.delete({ where: { id } });
-  return { deleted: true, archived: false, imagePublicIds };
 }

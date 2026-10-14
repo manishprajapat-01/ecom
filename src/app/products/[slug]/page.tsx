@@ -20,7 +20,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${product.title} - Best Price Online | BharatBazaar`,
+    title: `${product.title} - Best Price Online | Flipkart`,
     description: product.shortDesc || `Buy ${product.title} at best price with fast delivery and authentic assurance.`,
     openGraph: {
       title: product.title,

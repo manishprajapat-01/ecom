@@ -77,48 +77,53 @@ export default function AdminProductsPage() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white rounded-sm border border-gray-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-6">
+      {/* Header Banner Card */}
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-base font-bold text-gray-900">Products Catalog</h1>
-          <p className="text-xs text-gray-500">
-            {products.length} products · {products.filter((p) => p.isPublished).length} published
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Products Catalog</h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            {products.length} products total · {products.filter((p) => p.isPublished).length} published in store
           </p>
         </div>
 
         <Link
           href="/admin/products/new"
-          className="px-4 py-2 bg-[#2874f0] text-white text-xs font-bold rounded flex items-center gap-1.5 hover:bg-blue-700 shadow-xs"
+          className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm transition"
         >
-          <Plus className="w-4 h-4" /> Add Product
+          <Plus className="w-4 h-4" /> Add New Product
         </Link>
       </div>
 
       {notice && (
         <div
-          className={`p-3 border text-xs rounded font-medium ${
-            notice.type === "success" ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-red-50 border-red-200 text-red-700"
+          className={`p-4 border text-xs rounded-xl font-medium ${
+            notice.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-rose-50 border-rose-200 text-rose-700"
           }`}
         >
           {notice.text}
         </div>
       )}
 
-      <div className="bg-white rounded-sm border border-gray-200 p-3 shadow-xs flex items-center gap-2">
-        <Search className="w-4 h-4 text-gray-400" />
+      {/* Search Bar Card */}
+      <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center gap-3">
+        <Search className="w-4 h-4 text-slate-400" />
         <input
           type="text"
-          placeholder="Search by title, brand, SKU or category..."
+          placeholder="Search catalog by title, brand, SKU or category..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full text-xs focus:outline-none"
+          className="w-full text-xs text-slate-800 placeholder-slate-400 focus:outline-none bg-transparent"
         />
       </div>
 
-      <div className="bg-white rounded-sm border border-gray-200 shadow-xs overflow-x-auto text-xs">
+      {/* Products Table Card */}
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-x-auto text-xs p-2">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b bg-gray-50 text-gray-500 uppercase text-[10px] tracking-wider">
+            <tr className="border-b border-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider">
               <th className="p-3">Product</th>
               <th className="p-3">Category</th>
               <th className="p-3">SKU</th>
@@ -128,7 +133,7 @@ export default function AdminProductsPage() {
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-slate-100">
             {isLoading ? (
               <tr>
                 <td colSpan={7} className="p-8 text-center text-gray-500">

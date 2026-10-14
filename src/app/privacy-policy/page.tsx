@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
           <p className="font-semibold text-gray-900">
             Grievance Officer, {SITE_CONFIG.storeName} Internet Pvt. Ltd.<br />
             {SITE_CONFIG.address}<br />
-            Email: privacy@bharatbazaar.in
+            Email: privacy@flipkart.com
           </p>
         </section>
       </div>

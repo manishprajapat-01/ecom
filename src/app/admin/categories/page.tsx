@@ -152,13 +152,13 @@ export default function AdminCategoriesPage() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white rounded-sm border border-gray-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-6">
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-base font-bold text-gray-900 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-[#2874f0]" /> Categories
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <Layers className="w-5 h-5 text-purple-600" /> Categories & Departments
           </h1>
-          <p className="text-xs text-gray-500">Categories appear in the top navigation strip and product filters</p>
+          <p className="text-xs text-slate-500 mt-0.5">Categories appear in the storefront strip navigation and product filters</p>
         </div>
         {!isAdding && !editingId && (
           <button
@@ -166,7 +166,7 @@ export default function AdminCategoriesPage() {
               setForm(emptyForm);
               setIsAdding(true);
             }}
-            className="px-4 py-2 bg-[#2874f0] text-white text-xs font-bold rounded flex items-center gap-1.5 hover:bg-blue-700"
+            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm transition"
           >
             <Plus className="w-4 h-4" /> Add Category
           </button>
@@ -175,8 +175,10 @@ export default function AdminCategoriesPage() {
 
       {notice && (
         <div
-          className={`p-3 border text-xs rounded font-medium ${
-            notice.type === "success" ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-red-50 border-red-200 text-red-700"
+          className={`p-4 border text-xs rounded-xl font-medium ${
+            notice.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-rose-50 border-rose-200 text-rose-700"
           }`}
         >
           {notice.text}
@@ -185,10 +187,10 @@ export default function AdminCategoriesPage() {
 
       {isAdding && renderForm()}
 
-      <div className="bg-white rounded-sm border border-gray-200 shadow-xs overflow-x-auto text-xs">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-x-auto text-xs p-2">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b bg-gray-50 text-gray-500 uppercase text-[10px] tracking-wider">
+            <tr className="border-b border-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider">
               <th className="p-3">Order</th>
               <th className="p-3">Name</th>
               <th className="p-3">Slug</th>

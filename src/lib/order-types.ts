@@ -54,6 +54,7 @@ export interface OrderRecord {
   razorpayOrderId: string | null;
   razorpayPaymentId: string | null;
   couponCode: string | null;
+  idempotencyKey?: string | null;
   items: Array<{
     id: string;
     productId: string;

@@ -1,6 +1,13 @@
 import { SITE_CONFIG } from "../config";
 import { SAMPLE_COUPONS } from "../data/sample-catalog";
 
+function getAvailableCoupons(): any[] {
+  if (typeof globalThis !== "undefined" && Array.isArray((globalThis as any).devCoupons)) {
+    return (globalThis as any).devCoupons;
+  }
+  return SAMPLE_COUPONS;
+}
+
 export interface PricingItem {
   productId: string;
   variantId?: string | null;
@@ -40,7 +47,8 @@ export function validateCoupon(code: string, subtotalPaise: number): {
   errorMessage?: string;
 } {
   const normalizedCode = code.trim().toUpperCase();
-  const coupon = SAMPLE_COUPONS.find((c) => c.code === normalizedCode);
+  const coupons = getAvailableCoupons();
+  const coupon = coupons.find((c) => c.code === normalizedCode && c.isActive !== false);
 
   if (!coupon) {
     return {

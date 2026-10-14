@@ -1,0 +1,184 @@
+[
+  {
+    "id": "ord-1791998574152",
+    "orderNumber": "ODR-20261014-697684",
+    "userId": "admin-aadi-mahajani",
+    "addressId": "addr-demo-1",
+    "totalAmount": 119900,
+    "discountAmount": 0,
+    "shippingFee": 0,
+    "taxAmount": 0,
+    "finalAmount": 119900,
+    "status": "CONFIRMED",
+    "paymentStatus": "PAID",
+    "paymentMethod": "UPI",
+    "razorpayOrderId": "order_mock_d9b0e23ebafbae",
+    "razorpayPaymentId": "pay_mock_1791998575062",
+    "couponCode": null,
+    "items": [
+      {
+        "id": "item-1791998574152-0",
+        "productId": "prod-boat-airdopes-141",
+        "variantId": null,
+        "title": "boAt Airdopes 141 Bluetooth Truly Wireless in Ear Earbuds with 42H Playtime",
+        "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
+        "price": 119900,
+        "quantity": 1,
+        "total": 119900
+      }
+    ],
+    "address": {
+      "fullName": "Rahul Sharma",
+      "phone": "9812345678",
+      "houseFlat": "Flat 204, Green Heights",
+      "street": "Tonk Road",
+      "landmark": "Near Metro Pillar 42",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "pinCode": "302015",
+      "type": "HOME"
+    },
+    "customer": {
+      "name": "Rahul Sharma",
+      "phone": "9812345678"
+    },
+    "paidAt": "2026-10-14T17:22:55.110Z",
+    "createdAt": "2026-10-14T17:22:54.152Z",
+    "updatedAt": "2026-10-14T17:22:55.110Z"
+  },
+  {
+    "id": "ord-1",
+    "orderNumber": "OD20261014-9901",
+    "userId": "demo-user-1",
+    "addressId": "addr-1",
+    "totalAmount": 7999900,
+    "discountAmount": 0,
+    "shippingFee": 0,
+    "taxAmount": 0,
+    "finalAmount": 7999900,
+    "status": "CONFIRMED",
+    "paymentStatus": "PAID",
+    "paymentMethod": "UPI",
+    "razorpayOrderId": "order_demo_1",
+    "razorpayPaymentId": "pay_demo_1",
+    "couponCode": null,
+    "items": [
+      {
+        "id": "item-1",
+        "productId": "prod-1",
+        "variantId": null,
+        "title": "Apple iPhone 15 (128 GB) - Blue",
+        "image": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=400&q=80",
+        "price": 7999900,
+        "quantity": 1,
+        "total": 7999900
+      }
+    ],
+    "address": {
+      "fullName": "Aadi Kiran Mahajani",
+      "phone": "9876543210",
+      "houseFlat": "Flat 402, Royal Residency",
+      "street": "Malviya Nagar",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "pinCode": "302017"
+    },
+    "customer": {
+      "name": "Aadi Kiran Mahajani",
+      "phone": "9876543210"
+    },
+    "paidAt": "2026-10-14T10:00:00.000Z",
+    "createdAt": "2026-10-14T10:00:00.000Z",
+    "updatedAt": "2026-10-14T10:00:00.000Z"
+  },
+  {
+    "id": "ord-2",
+    "orderNumber": "OD20261014-5512",
+    "userId": "demo-user-2",
+    "addressId": "addr-2",
+    "totalAmount": 2499900,
+    "discountAmount": 0,
+    "shippingFee": 0,
+    "taxAmount": 0,
+    "finalAmount": 2499900,
+    "status": "PROCESSING",
+    "paymentStatus": "PAID",
+    "paymentMethod": "CARD",
+    "razorpayOrderId": "order_demo_2",
+    "razorpayPaymentId": "pay_demo_2",
+    "couponCode": "FLIPKART10",
+    "items": [
+      {
+        "id": "item-2",
+        "productId": "prod-2",
+        "variantId": null,
+        "title": "Sony WH-1000XM5 Wireless Headphones",
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+        "price": 2499900,
+        "quantity": 1,
+        "total": 2499900
+      }
+    ],
+    "address": {
+      "fullName": "Sneha Verma",
+      "phone": "9823456789",
+      "houseFlat": "B-12, Vaishali Nagar",
+      "street": "Amrapali Circle",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "pinCode": "302021"
+    },
+    "customer": {
+      "name": "Sneha Verma",
+      "phone": "9823456789"
+    },
+    "paidAt": "2026-10-14T09:00:00.000Z",
+    "createdAt": "2026-10-14T09:00:00.000Z",
+    "updatedAt": "2026-10-14T09:00:00.000Z"
+  },
+  {
+    "id": "ord-3",
+    "orderNumber": "OD20261014-1189",
+    "userId": "demo-user-3",
+    "addressId": "addr-3",
+    "totalAmount": 189900,
+    "discountAmount": 0,
+    "shippingFee": 4000,
+    "taxAmount": 0,
+    "finalAmount": 193900,
+    "status": "PENDING",
+    "paymentStatus": "PENDING",
+    "paymentMethod": "COD",
+    "razorpayOrderId": null,
+    "razorpayPaymentId": null,
+    "couponCode": null,
+    "items": [
+      {
+        "id": "item-3",
+        "productId": "prod-3",
+        "variantId": null,
+        "title": "Men Slim Fit Cotton Casual Shirt",
+        "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80",
+        "price": 94950,
+        "quantity": 2,
+        "total": 189900
+      }
+    ],
+    "address": {
+      "fullName": "Rohan Mehra",
+      "phone": "9811223344",
+      "houseFlat": "House 54, Sector 14",
+      "street": "MG Road",
+      "city": "Gurugram",
+      "state": "Haryana",
+      "pinCode": "122001"
+    },
+    "customer": {
+      "name": "Rohan Mehra",
+      "phone": "9811223344"
+    },
+    "paidAt": null,
+    "createdAt": "2026-10-14T08:00:00.000Z",
+    "updatedAt": "2026-10-14T08:00:00.000Z"
+  }
+]

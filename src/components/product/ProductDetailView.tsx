@@ -17,6 +17,7 @@ import {
   Check,
 } from "lucide-react";
 import type { CatalogProduct } from "@/lib/data/sample-catalog";
+import { FAssuredBadge } from "@/components/layout/FAssuredBadge";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -181,11 +182,9 @@ export function ProductDetailView({ product }: { product: CatalogProduct }) {
               <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
                 {product.brand}
               </span>
-              <span className="inline-flex items-center text-xs bg-blue-50 text-[#2874f0] font-black px-1.5 py-0.5 rounded italic border border-blue-100">
-                Assured ✦
-              </span>
+              <FAssuredBadge size="md" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-snug">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
               {product.title}
             </h1>
           </div>
@@ -193,17 +192,17 @@ export function ProductDetailView({ product }: { product: CatalogProduct }) {
           {/* Rating Badge */}
           {product.rating > 0 && (
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1 bg-emerald-700 text-white font-bold text-xs px-2 py-0.5 rounded shadow-xs">
+              <span className="inline-flex items-center gap-1 bg-[#388e3c] text-white font-bold text-xs px-2 py-0.5 rounded-xs shadow-2xs">
                 {product.rating.toFixed(1)} <Star className="w-3 h-3 fill-current" />
               </span>
-              <span className="text-xs font-semibold text-gray-500">
+              <span className="text-xs font-bold text-gray-500">
                 {product.reviewCount.toLocaleString()} Ratings & Reviews
               </span>
             </div>
           )}
 
           {/* Special Price Tag */}
-          <div className="text-xs font-bold text-emerald-700 uppercase tracking-wide">
+          <div className="text-xs font-bold text-[#388e3c] uppercase tracking-wide">
             Special Price
           </div>
 
@@ -217,7 +216,7 @@ export function ProductDetailView({ product }: { product: CatalogProduct }) {
                 <span className="text-base text-gray-500 line-through">
                   {formatCurrency(product.regularPrice)}
                 </span>
-                <span className="text-base font-bold text-emerald-600">
+                <span className="text-base font-bold text-[#388e3c]">
                   {product.discountPercent}% off
                 </span>
               </>
@@ -229,23 +228,29 @@ export function ProductDetailView({ product }: { product: CatalogProduct }) {
             <h3 className="font-bold text-gray-900 uppercase tracking-wider text-[11px]">
               Available Offers
             </h3>
-            <div className="space-y-1.5 text-gray-700">
+            <div className="space-y-2 text-gray-700">
               <div className="flex items-start gap-2">
-                <Tag className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <Tag className="w-4 h-4 text-[#388e3c] shrink-0 mt-0.5" />
                 <span>
-                  <strong>Bank Offer:</strong> 10% instant discount on leading Credit/Debit cards up to ₹1,500.
+                  <strong>Bank Offer:</strong> 10% instant discount on Axis Bank & SBI Credit Cards up to ₹1,500.
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <Tag className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <Tag className="w-4 h-4 text-[#388e3c] shrink-0 mt-0.5" />
                 <span>
                   <strong>Special Price:</strong> Get extra 15% off (price inclusive of cashback/coupon).
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <Tag className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <Tag className="w-4 h-4 text-[#388e3c] shrink-0 mt-0.5" />
                 <span>
-                  <strong>Partner Offer:</strong> Sign up for BharatBazaar Pay Later and get ₹100 Welcome Gift Card.
+                  <strong>Partner Offer:</strong> Sign up for Flipkart Pay Later and get ₹100 Welcome Gift Card.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Tag className="w-4 h-4 text-[#388e3c] shrink-0 mt-0.5" />
+                <span>
+                  <strong>Flipkart SuperCoins:</strong> Earn 4X SuperCoins on every ₹100 spent.
                 </span>
               </div>
             </div>

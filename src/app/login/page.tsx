@@ -7,6 +7,7 @@ import { ChevronDown, KeyRound, Loader2, Sparkles, X } from "lucide-react";
 import type { ConfirmationResult } from "firebase/auth";
 import { useAuth } from "@/context/AuthContext";
 import { FIREBASE_CLIENT_CONFIGURED, SITE_CONFIG } from "@/lib/config";
+import { FlipkartLogo } from "@/components/layout/FlipkartLogo";
 
 const RECAPTCHA_CONTAINER_ID = "firebase-recaptcha-container";
 const GENERIC_LOGIN_ERROR = "Something went wrong. Please try again later.";
@@ -124,22 +125,25 @@ function LoginForm() {
               <X className="w-6 h-6" />
             </button>
 
-            <Link href="/" className="flex items-center gap-2 font-black italic text-xl tracking-tight">
-              {SITE_CONFIG.storeName}
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-yellow-400 text-[#2874f0] not-italic">
-                <Sparkles className="w-4 h-4" />
-              </span>
-            </Link>
+            <FlipkartLogo variant="white" size="md" showSubtext={false} />
 
             <span className="w-6" />
           </div>
 
           <div className="relative -mt-1 flex-1 bg-white rounded-t-lg px-6 pt-8 pb-24 min-h-[calc(100dvh-4rem)] md:min-h-[576px]">
-            <div className="mb-7">
+            <div className="mb-5">
               <h1 className="text-base font-bold text-gray-900">Log in for the best experience</h1>
               <p className="mt-2 text-sm text-gray-500">
                 {step === "PHONE" ? "Enter your phone number to continue" : "Enter the OTP sent to your phone"}
               </p>
+            </div>
+
+            {/* Quick Link to Admin Email/Password Login */}
+            <div className="mb-5 p-3 bg-blue-50/80 border border-blue-200/70 rounded-md text-xs flex items-center justify-between">
+              <span className="text-slate-700 font-medium">Administrator portal access?</span>
+              <Link href="/admin/login" className="text-[#2874f0] font-bold hover:underline flex items-center gap-1">
+                Admin Sign In &rarr;
+              </Link>
             </div>
 
             {errorMsg && (

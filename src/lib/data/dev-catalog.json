@@ -1,0 +1,562 @@
+{
+  "categories": [
+    {
+      "id": "cat-mobiles",
+      "name": "Mobiles & Tablets",
+      "slug": "mobiles-tablets",
+      "description": "Latest smartphones, 5G phones and flagship tablets",
+      "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Smartphone",
+      "sortOrder": 1
+    },
+    {
+      "id": "cat-electronics",
+      "name": "Electronics",
+      "slug": "electronics",
+      "description": "Laptops, audio, smart watches and cameras",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Laptop",
+      "sortOrder": 2
+    },
+    {
+      "id": "cat-fashion",
+      "name": "Fashion",
+      "slug": "fashion",
+      "description": "Men's, Women's & Kids' clothing, footwear & accessories",
+      "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Shirt",
+      "sortOrder": 3
+    },
+    {
+      "id": "cat-appliances",
+      "name": "Appliances",
+      "slug": "appliances",
+      "description": "Televisions, refrigerators, air conditioners & washing machines",
+      "image": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Tv",
+      "sortOrder": 4
+    },
+    {
+      "id": "cat-home",
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "description": "Cookware, kitchen appliances, furniture and home decor",
+      "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Home",
+      "sortOrder": 5
+    },
+    {
+      "id": "cat-beauty",
+      "name": "Beauty & Grooming",
+      "slug": "beauty",
+      "description": "Skincare, haircare, makeup and perfumes",
+      "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+      "iconName": "Sparkles",
+      "sortOrder": 6
+    },
+    {
+      "id": "cat-grocery",
+      "name": "Grocery",
+      "slug": "grocery",
+      "description": "Daily staples, snacks, beverages and packaged foods",
+      "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80",
+      "iconName": "ShoppingBag",
+      "sortOrder": 7
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-iphone-15",
+      "title": "Apple iPhone 15 (128 GB) - Black",
+      "slug": "apple-iphone-15-128gb-black",
+      "shortDesc": "Dynamic Island, 48MP main camera, USB-C, A16 Bionic chip with all-day battery life.",
+      "longDesc": "iPhone 15 brings you Dynamic Island, a 48MP Main camera with 2x Telephoto, durable color-infused glass and aluminum design, and USB-C connectivity. Super Retina XDR display is up to 2x brighter in the sun compared to iPhone 14.",
+      "brand": "Apple",
+      "categoryId": "cat-mobiles",
+      "categorySlug": "mobiles-tablets",
+      "categoryName": "Mobiles & Tablets",
+      "regularPrice": 7990000,
+      "sellingPrice": 6599900,
+      "discountPercent": 17,
+      "sku": "APL-IPH15-128-BLK",
+      "stock": 45,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.7,
+      "reviewCount": 3840,
+      "specifications": {
+        "Display": "6.1-inch Super Retina XDR OLED",
+        "Processor": "A16 Bionic Chip (6-core CPU)",
+        "Rear Camera": "48MP Main + 12MP Ultra Wide",
+        "Front Camera": "12MP TrueDepth Camera",
+        "Storage": "128 GB",
+        "Operating System": "iOS 17",
+        "Battery": "Up to 20 hours video playback",
+        "Connector": "USB-C",
+        "Warranty": "1 Year Brand Warranty"
+      },
+      "images": [
+        {
+          "id": "img-iph-1",
+          "url": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
+          "alt": "Apple iPhone 15 Black Front and Back",
+          "isPrimary": true
+        },
+        {
+          "id": "img-iph-2",
+          "url": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800&q=80",
+          "alt": "Apple iPhone 15 camera system",
+          "isPrimary": false
+        },
+        {
+          "id": "img-iph-3",
+          "url": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80",
+          "alt": "Apple iPhone 15 Display",
+          "isPrimary": false
+        }
+      ],
+      "variants": [
+        {
+          "id": "var-iph-128",
+          "title": "128 GB / Black",
+          "sku": "APL-IPH15-128-BLK",
+          "price": 6599900,
+          "stock": 35,
+          "attributes": {
+            "Storage": "128 GB",
+            "Color": "Black"
+          }
+        },
+        {
+          "id": "var-iph-256",
+          "title": "256 GB / Black",
+          "sku": "APL-IPH15-256-BLK",
+          "price": 7599900,
+          "stock": 10,
+          "attributes": {
+            "Storage": "256 GB",
+            "Color": "Black"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod-samsung-s24",
+      "title": "Samsung Galaxy S24 5G (Onyx Black, 256 GB) (8 GB RAM)",
+      "slug": "samsung-galaxy-s24-5g-onyx-black-256gb",
+      "shortDesc": "Galaxy AI features, Circle to Search, 50MP ProVisual Engine camera, 4000mAh battery.",
+      "longDesc": "Meet Galaxy S24, the phone that transforms your everyday life with Galaxy AI. Search like never before with Circle to Search, get real-time voice translation on a call, and format notes with Note Assist.",
+      "brand": "Samsung",
+      "categoryId": "cat-mobiles",
+      "categorySlug": "mobiles-tablets",
+      "categoryName": "Mobiles & Tablets",
+      "regularPrice": 7999900,
+      "sellingPrice": 7499900,
+      "discountPercent": 6,
+      "sku": "SAM-S24-256-BLK",
+      "stock": 28,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.6,
+      "reviewCount": 1920,
+      "specifications": {
+        "Display": "6.2-inch Dynamic AMOLED 2X, 120Hz",
+        "Processor": "Exynos 2400 Deca-Core",
+        "Rear Camera": "50MP Wide + 12MP Ultra Wide + 10MP Telephoto",
+        "Front Camera": "12MP Dual Pixel",
+        "RAM": "8 GB",
+        "Storage": "256 GB",
+        "Battery": "4000 mAh with 25W Fast Charging",
+        "Warranty": "1 Year Brand Warranty"
+      },
+      "images": [
+        {
+          "id": "img-s24-1",
+          "url": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
+          "alt": "Samsung Galaxy S24 5G Onyx Black",
+          "isPrimary": true
+        },
+        {
+          "id": "img-s24-2",
+          "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+          "alt": "Samsung Galaxy display view",
+          "isPrimary": false
+        }
+      ]
+    },
+    {
+      "id": "prod-sony-wh1000xm5",
+      "title": "Sony WH-1000XM5 Wireless Industry Leading Active Noise Cancelling Headphones",
+      "slug": "sony-wh-1000xm5-wireless-noise-cancelling-headphones",
+      "shortDesc": "Industry-leading noise cancellation with 8 microphones, 30-hour battery life, Crystal clear calls.",
+      "longDesc": "The Sony WH-1000XM5 headphones rewrite the rules for distraction-free listening. Two processors control 8 microphones for unprecedented noise cancellation and exceptional call quality.",
+      "brand": "Sony",
+      "categoryId": "cat-electronics",
+      "categorySlug": "electronics",
+      "categoryName": "Electronics",
+      "regularPrice": 3499000,
+      "sellingPrice": 2699000,
+      "discountPercent": 23,
+      "sku": "SNY-WH1000XM5-SLV",
+      "stock": 18,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.8,
+      "reviewCount": 4210,
+      "specifications": {
+        "Type": "Over-Ear Wireless",
+        "Noise Cancellation": "Active with Integrated Processor V1 + HD QN1",
+        "Battery Life": "Up to 30 Hours (NC ON), 40 Hours (NC OFF)",
+        "Charging": "Quick charge 3 mins gives 3 hours playback",
+        "Microphones": "8 Microphones with Beamforming",
+        "Connectivity": "Bluetooth 5.2, Multipoint Connection, LDAC",
+        "Weight": "250 grams"
+      },
+      "images": [
+        {
+          "id": "img-sony-1",
+          "url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80",
+          "alt": "Sony WH-1000XM5 Headphones Studio Shot",
+          "isPrimary": true
+        },
+        {
+          "id": "img-sony-2",
+          "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+          "alt": "Sony Headphones on Stand",
+          "isPrimary": false
+        }
+      ]
+    },
+    {
+      "id": "prod-macbook-air-m2",
+      "title": "Apple MacBook Air M2 - (8 GB/256 GB SSD/macOS Ventura) Midnight",
+      "slug": "apple-macbook-air-m2-8gb-256gb-midnight",
+      "shortDesc": "13.6-inch Liquid Retina Display, 1080p FaceTime HD Camera, Backlit Magic Keyboard, MagSafe 3.",
+      "longDesc": "Supercharged by the next-generation M2 chip, the redesigned MacBook Air combines incredible performance and up to 18 hours of battery life into its strikingly thin aluminum enclosure.",
+      "brand": "Apple",
+      "categoryId": "cat-electronics",
+      "categorySlug": "electronics",
+      "categoryName": "Electronics",
+      "regularPrice": 9990000,
+      "sellingPrice": 8499000,
+      "discountPercent": 15,
+      "sku": "APL-MBA-M2-256-MID",
+      "stock": 12,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.8,
+      "reviewCount": 1540,
+      "specifications": {
+        "Processor": "Apple M2 chip with 8-core CPU and 8-core GPU",
+        "RAM": "8 GB Unified Memory",
+        "SSD": "256 GB Superfast SSD",
+        "Display": "13.6-inch Liquid Retina with True Tone (500 nits)",
+        "Battery": "Up to 18 Hours Apple TV app movie playback",
+        "Weight": "1.24 kg",
+        "Ports": "MagSafe 3, Two Thunderbolt/USB 4 ports, 3.5mm Headphone Jack"
+      },
+      "images": [
+        {
+          "id": "img-mba-1",
+          "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+          "alt": "Apple MacBook Air Midnight Open",
+          "isPrimary": true
+        },
+        {
+          "id": "img-mba-2",
+          "url": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
+          "alt": "Apple MacBook Air Side Profile",
+          "isPrimary": false
+        }
+      ]
+    },
+    {
+      "id": "prod-lg-55-tv",
+      "title": "LG UR7500 139 cm (55 inch) Ultra HD (4K) LED Smart WebOS TV 2024 Edition",
+      "slug": "lg-ur7500-55-inch-4k-uhd-smart-tv",
+      "shortDesc": "α5 AI Processor 4K Gen6, HDR10 Pro, AI Sound with Virtual 5.1 Up-mix, Magic Remote Ready.",
+      "longDesc": "Experience vibrant color and remarkable detail with 4K UHD. LG UHD TV with HDR10 Pro brings optimized brightness levels for vivid color and remarkable detail.",
+      "brand": "LG",
+      "categoryId": "cat-appliances",
+      "categorySlug": "appliances",
+      "categoryName": "Appliances",
+      "regularPrice": 6599000,
+      "sellingPrice": 4299000,
+      "discountPercent": 35,
+      "sku": "LG-55UR75-4K",
+      "stock": 15,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.5,
+      "reviewCount": 3120,
+      "specifications": {
+        "Screen Size": "55 inch (139 cm)",
+        "Resolution": "Ultra HD (4K) 3840 x 2160 Pixels",
+        "Operating System": "webOS 23 Smart TV",
+        "Sound Output": "20W 2.0 Ch with AI Sound",
+        "Refresh Rate": "60 Hz",
+        "HDMI Ports": "3 HDMI 2.0 Ports",
+        "USB Ports": "2 USB Ports",
+        "Warranty": "1 Year Comprehensive Warranty"
+      },
+      "images": [
+        {
+          "id": "img-tv-1",
+          "url": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=800&q=80",
+          "alt": "LG 55 Inch 4K Smart TV in Modern Living Room",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-philips-airfryer",
+      "title": "PHILIPS Digital Air Fryer HD9252/90 with Touch Panel (4.1 Litre, 1400 W)",
+      "slug": "philips-digital-air-fryer-hd9252-90-touch-panel",
+      "shortDesc": "Rapid Air Technology, 90% Less Fat, 7 Preset Menus, Keep Warm function, Dishwasher safe.",
+      "longDesc": "Healthy frying with Rapid Air technology. Fry, bake, grill, roast, and even reheat with up to 90% less fat compared to fresh fries prepared in a conventional deep fryer.",
+      "brand": "Philips",
+      "categoryId": "cat-home",
+      "categorySlug": "home-kitchen",
+      "categoryName": "Home & Kitchen",
+      "regularPrice": 1199500,
+      "sellingPrice": 799900,
+      "discountPercent": 33,
+      "sku": "PHI-AF-HD9252-BLK",
+      "stock": 40,
+      "isPublished": true,
+      "isFeatured": false,
+      "rating": 4.4,
+      "reviewCount": 2890,
+      "specifications": {
+        "Capacity": "4.1 Litres (0.8 kg food capacity)",
+        "Power": "1400 Watts",
+        "Control": "Digital Touch Screen with 7 Presets",
+        "Technology": "Rapid Air Technology",
+        "Auto Shut-off": "Yes",
+        "Dishwasher Safe Parts": "Yes"
+      },
+      "images": [
+        {
+          "id": "img-af-1",
+          "url": "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80",
+          "alt": "Modern Digital Air Fryer on Marble Counter",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-prestige-mixer",
+      "title": "Prestige Iris 750W Mixer Grinder with 3 Stainless Steel Jars + 1 Juicer Jar",
+      "slug": "prestige-iris-750w-mixer-grinder-4-jars",
+      "shortDesc": "Powerful 750 Watt motor, 4 multipurpose jars, overload protection, stainless steel blades.",
+      "longDesc": "Prestige Iris Mixer Grinder makes food preparation quick and easy. Fitted with a robust 750 watt motor, it effortlessly grinds the toughest Indian ingredients like dosa batter, turmeric, and chutneys.",
+      "brand": "Prestige",
+      "categoryId": "cat-home",
+      "categorySlug": "home-kitchen",
+      "categoryName": "Home & Kitchen",
+      "regularPrice": 629500,
+      "sellingPrice": 319900,
+      "discountPercent": 49,
+      "sku": "PRS-IRIS-750W",
+      "stock": 65,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.3,
+      "reviewCount": 8940,
+      "specifications": {
+        "Motor Power": "750 Watts",
+        "Jars Included": "3 Stainless Steel Jars + 1 Transparent Juicer Jar",
+        "Speed Settings": "3 Speed with Whip Function",
+        "Overload Protection": "Yes",
+        "Blade Material": "Hardened Stainless Steel",
+        "Warranty": "2 Years Brand Warranty on Product"
+      },
+      "images": [
+        {
+          "id": "img-mix-1",
+          "url": "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=800&q=80",
+          "alt": "Kitchen Mixer Grinder with Jars",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-mens-cotton-shirt",
+      "title": "HIGHLANDER Men's Slim Fit Pure Cotton Casual Shirt",
+      "slug": "highlander-mens-slim-fit-cotton-casual-shirt",
+      "shortDesc": "100% Breathable cotton, spread collar, curved hemline, button-down front.",
+      "longDesc": "Refresh your casual wardrobe with this stylish slim-fit shirt tailored from premium breathable cotton. Perfect for weekend outings, office Fridays, and casual dinner dates.",
+      "brand": "HIGHLANDER",
+      "categoryId": "cat-fashion",
+      "categorySlug": "fashion",
+      "categoryName": "Fashion",
+      "regularPrice": 169900,
+      "sellingPrice": 67900,
+      "discountPercent": 60,
+      "sku": "HLN-SHRT-COT-BLU",
+      "stock": 120,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.1,
+      "reviewCount": 5410,
+      "specifications": {
+        "Fabric": "100% Pure Cotton",
+        "Fit": "Slim Fit",
+        "Collar": "Spread Collar",
+        "Sleeve": "Full Sleeves",
+        "Pattern": "Solid Plain",
+        "Wash Care": "Machine Wash Cold"
+      },
+      "images": [
+        {
+          "id": "img-shirt-1",
+          "url": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+          "alt": "Men's Navy Blue Casual Shirt",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-womens-anarkali-kurta",
+      "title": "Libas Women Floral Printed Pure Cotton Anarkali Kurta with Trousers & Dupatta",
+      "slug": "libas-women-floral-printed-cotton-anarkali-kurta-set",
+      "shortDesc": "Traditional 3-piece festive ethnic set, flared hemline, keyhole neck, matching organza dupatta.",
+      "longDesc": "Drape yourself in effortless elegance with this vibrant 3-piece Anarkali kurta suit set from Libas. Adorned with delicate floral motifs and paired with comfortable trousers and a lightweight dupatta.",
+      "brand": "Libas",
+      "categoryId": "cat-fashion",
+      "categorySlug": "fashion",
+      "categoryName": "Fashion",
+      "regularPrice": 399900,
+      "sellingPrice": 149900,
+      "discountPercent": 62,
+      "sku": "LBS-ANR-SET-PNK",
+      "stock": 75,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.5,
+      "reviewCount": 3880,
+      "specifications": {
+        "Kurta Fabric": "Pure Cotton",
+        "Bottom Fabric": "Pure Cotton",
+        "Dupatta Fabric": "Polyester Organza",
+        "Set Contents": "1 Kurta, 1 Trouser, 1 Dupatta",
+        "Sleeve Length": "Three-Quarter Sleeves",
+        "Neck": "Round Neck with Slit"
+      },
+      "images": [
+        {
+          "id": "img-kurta-1",
+          "url": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+          "alt": "Indian Ethnic Women's Kurta Set",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-boat-airdopes-141",
+      "title": "boAt Airdopes 141 Bluetooth Truly Wireless in Ear Earbuds with 42H Playtime",
+      "slug": "boat-airdopes-141-tws-earbuds-42h-playtime",
+      "shortDesc": "ENx Environmental Noise Cancellation, Beast Mode 80ms low latency for gaming, ASAP Charge.",
+      "longDesc": "Escape into your favorite playlist with boAt Airdopes 141. Offering an astounding playback of up to 42 hours, you can enjoy uninterrupted music, podcasts, and calls all day long.",
+      "brand": "boAt",
+      "categoryId": "cat-electronics",
+      "categorySlug": "electronics",
+      "categoryName": "Electronics",
+      "regularPrice": 449000,
+      "sellingPrice": 119900,
+      "discountPercent": 73,
+      "sku": "BOAT-AD141-BLK",
+      "stock": 350,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.2,
+      "reviewCount": 45200,
+      "specifications": {
+        "Total Playtime": "Up to 42 Hours",
+        "Fast Charging": "5 mins charge = 75 mins playtime (ASAP Charge)",
+        "Drivers": "8mm Dynamic Drivers",
+        "Low Latency": "80ms Beast Mode",
+        "Water Resistance": "IPX4 Sweat & Splash Resistant",
+        "Microphones": "Dual Mic with ENx Tech"
+      },
+      "images": [
+        {
+          "id": "img-boat-1",
+          "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
+          "alt": "boAt TWS Earbuds in Matte Black Case",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-noise-colorfit-pulse3",
+      "title": "Noise ColorFit Pulse 3 Smart Watch with 1.96-inch TFT Display & Bluetooth Calling",
+      "slug": "noise-colorfit-pulse-3-smart-watch-bluetooth-calling",
+      "shortDesc": "1.96-inch HD display, BT Calling, 550 nits brightness, 100+ sports modes, 7 days battery.",
+      "longDesc": "Take your fitness and daily connectivity to the next level with the Noise ColorFit Pulse 3. Its big 1.96-inch display delivers vibrant visuals even under bright Indian sunlight.",
+      "brand": "Noise",
+      "categoryId": "cat-electronics",
+      "categorySlug": "electronics",
+      "categoryName": "Electronics",
+      "regularPrice": 699900,
+      "sellingPrice": 179900,
+      "discountPercent": 74,
+      "sku": "NOI-PULSE3-SLV",
+      "stock": 140,
+      "isPublished": true,
+      "isFeatured": true,
+      "rating": 4.3,
+      "reviewCount": 16700,
+      "specifications": {
+        "Display": "1.96-inch TFT Display (240x282, 550 nits)",
+        "Calling": "Bluetooth Calling with dial pad & contacts",
+        "Battery Life": "Up to 7 days normal use (2 days with calling)",
+        "Health Tracking": "Heart Rate, SpO2, Sleep Monitor, Stress",
+        "Sports Modes": "100+ Sports Modes with Auto Detection",
+        "Water Resistance": "IP68 Rating"
+      },
+      "images": [
+        {
+          "id": "img-watch-1",
+          "url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+          "alt": "Smart Watch on modern surface",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "id": "prod-cadbury-celebrations",
+      "title": "Cadbury Celebrations Rich Chocolate Gift Pack (286g)",
+      "slug": "cadbury-celebrations-rich-chocolate-gift-pack-286g",
+      "shortDesc": "Delightful assortment of Dairy Milk, 5 Star, Perk and Gems. Perfect for gifting.",
+      "longDesc": "Bring joy to every occasion with Cadbury Celebrations Rich Chocolate Gift Pack. Packed with all your favorite classic chocolates to share happiness with loved ones.",
+      "brand": "Cadbury",
+      "categoryId": "cat-grocery",
+      "categorySlug": "grocery",
+      "categoryName": "Grocery",
+      "regularPrice": 25000,
+      "sellingPrice": 21900,
+      "discountPercent": 12,
+      "sku": "CAD-CEL-286G",
+      "stock": 220,
+      "isPublished": true,
+      "isFeatured": false,
+      "rating": 4.6,
+      "reviewCount": 7800,
+      "specifications": {
+        "Net Weight": "286 grams",
+        "Package Type": "Festive Gift Box",
+        "Vegetarian": "100% Vegetarian (Green Dot)",
+        "Shelf Life": "12 Months from packaging"
+      },
+      "images": [
+        {
+          "id": "img-cad-1",
+          "url": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80",
+          "alt": "Assorted Chocolates Gift Box",
+          "isPrimary": true
+        }
+      ]
+    }
+  ]
+}

@@ -17,6 +17,7 @@ import {
 import { useCart } from "@/context/CartContext";
 import { formatCurrency } from "@/lib/utils";
 import { SAMPLE_COUPONS } from "@/lib/data/sample-catalog";
+import { FAssuredBadge } from "@/components/layout/FAssuredBadge";
 
 export default function CartPage() {
   const router = useRouter();
@@ -92,9 +93,12 @@ export default function CartPage() {
                 {/* Item Details */}
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
-                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
-                      {item.brand}
-                    </span>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                        {item.brand}
+                      </span>
+                      <FAssuredBadge size="sm" />
+                    </div>
                     <Link
                       href={`/products/${item.slug}`}
                       className="block text-sm font-semibold text-gray-900 hover:text-blue-600 line-clamp-2"

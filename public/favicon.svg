@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#2874F0"/>
+  <!-- Shopping bag body -->
+  <path d="M14 20C14 18 16 16 18 16H46C48 16 50 18 50 20L53 54C53 57 51 59 48 59H16C13 59 11 57 11 54L14 20Z" fill="#FFE11B"/>
+  <!-- Bag handle -->
+  <path d="M22 17V12C22 7.5 25.5 4 30 4H34C38.5 4 42 7.5 42 12V17" stroke="#2874F0" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- 'f' logo -->
+  <path d="M35 26H29C27.3 26 26 27.3 26 29V34H23V39H26V52H32V39H36L37 34H32V31C32 30.4 32.4 30 33 30H35V26Z" fill="#2874F0"/>
+  <!-- Speed dashes -->
+  <path d="M15 28L20 28" stroke="#2874F0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13 36L19 36" stroke="#2874F0" stroke-width="3" stroke-linecap="round"/>
+</svg>
